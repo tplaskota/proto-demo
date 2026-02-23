@@ -1,0 +1,10 @@
+version: v2
+managed:
+  enabled: true
+
+# RUST - NIE UŻYWA BUF
+# Kompilacja przez cargo build.rs z tonic-build
+# Zobacz: gen/rust/build.rs
+
+# Puste - Rust używa build.rs zamiast buf
+plugins: []

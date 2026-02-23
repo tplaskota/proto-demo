@@ -1,0 +1,28 @@
+version: v2
+# Zarządzanie zależnościami
+managed:
+  enabled: true
+
+# TYLKO LOKALNE PLUGINY - działa bez internetu
+# Wymagania: protoc, grpc_cpp_plugin, python3-grpc-tools
+# Rust używa build.rs (cargo build w gen/rust/)
+# C# używa Grpc.Tools (dotnet build w gen/csharp/)
+# Instalacja: make install-plugins
+
+plugins:
+  # C++ - protobuf
+  - protoc_builtin: cpp
+    out: gen/cpp
+    opt: speed
+  
+  # C++ - gRPC  
+  - protoc_builtin: grpc-cpp
+    out: gen/cpp
+  
+  # Python - protobuf
+  - protoc_builtin: python
+    out: gen/python
+  
+  # Python - gRPC
+  - protoc_builtin: grpc-python
+    out: gen/python

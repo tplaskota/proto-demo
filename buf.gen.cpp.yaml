@@ -1,0 +1,12 @@
+version: v2
+managed:
+  enabled: true
+
+# LOKALNE PLUGINY - działa offline
+plugins:
+  - protoc_builtin: cpp
+    out: gen/cpp
+    opt: speed
+  
+  - protoc_builtin: grpc-cpp
+    out: gen/cpp

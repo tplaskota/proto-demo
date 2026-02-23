@@ -1,0 +1,59 @@
+cmake_minimum_required(VERSION 3.15)
+project(proto_demo_cpp VERSION 1.0.0 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Znajdź wymagane pakiety
+find_package(Protobuf REQUIRED)
+find_package(gRPC CONFIG REQUIRED)
+
+# Zbierz wszystkie wygenerowane pliki
+file(GLOB_RECURSE PROTO_SRCS "api/v1/*.pb.cc")
+file(GLOB_RECURSE GRPC_SRCS "api/v1/*.grpc.pb.cc")
+file(GLOB_RECURSE PROTO_HDRS "api/v1/*.pb.h")
+file(GLOB_RECURSE GRPC_HDRS "api/v1/*.grpc.pb.h")
+
+# Biblioteka shared
+add_library(proto_demo_cpp SHARED ${PROTO_SRCS} ${GRPC_SRCS})
+target_include_directories(proto_demo_cpp PUBLIC 
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<INSTALL_INTERFACE:include>
+)
+target_link_libraries(proto_demo_cpp PUBLIC
+    protobuf::libprotobuf
+    gRPC::grpc++
+    gRPC::grpc++_reflection
+)
+
+# Biblioteka static
+add_library(proto_demo_cpp_static STATIC ${PROTO_SRCS} ${GRPC_SRCS})
+target_include_directories(proto_demo_cpp_static PUBLIC 
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+    $<INSTALL_INTERFACE:include>
+)
+target_link_libraries(proto_demo_cpp_static PUBLIC
+    protobuf::libprotobuf
+    gRPC::grpc++
+    gRPC::grpc++_reflection
+)
+
+# Instalacja
+install(TARGETS proto_demo_cpp proto_demo_cpp_static
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+)
+install(FILES ${PROTO_HDRS} ${GRPC_HDRS} DESTINATION include/api/v1)
+
+# CPack configuration
+set(CPACK_PACKAGE_NAME "proto-demo-cpp")
+set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Proto Demo C++ library")
+set(CPACK_PACKAGE_VENDOR "Proto Demo Team")
+set(CPACK_GENERATOR "TGZ;DEB")
+
+# DEB specific
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Proto Demo Team")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libprotobuf-dev, libgrpc++-dev")
+
+include(CPack)

@@ -1,0 +1,14 @@
+version: v2
+managed:
+  enabled: true
+
+# LOKALNE PLUGINY - działa offline
+plugins:
+  - protoc_builtin: python
+    out: gen/python
+  
+  - protoc_builtin: grpc-python
+    out: gen/python
+  
+  # pyi (type stubs) - brak w lokalnych pluginach
+  # Alternatywa: użyj mypy-protobuf lokalnie

@@ -1,0 +1,45 @@
+# Generowane pliki
+gen/
+docs/*.html
+docs/*.json
+docs/*.swagger.*
+*.bin
+*.json
+
+# Buf cache
+.buf/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+
+# Rust
+target/
+Cargo.lock
+
+# C++
+*.o
+*.a
+*.so
+*.exe
+build/
+cmake-build-*/

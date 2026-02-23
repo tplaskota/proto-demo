@@ -1,0 +1,152 @@
+syntax = "proto3";
+
+package api.v1;
+
+import "api/v1/common.proto";
+import "google/protobuf/timestamp.proto";
+
+// Model użytkownika
+message User {
+  // Unikalny identyfikator użytkownika
+  string id = 1;
+  // Nazwa użytkownika
+  string username = 2;
+  // Adres email
+  string email = 3;
+  // Imię
+  string first_name = 4;
+  // Nazwisko
+  string last_name = 5;
+  // Data utworzenia konta
+  google.protobuf.Timestamp created_at = 6;
+  // Data ostatniej aktualizacji
+  google.protobuf.Timestamp updated_at = 7;
+  // Czy konto jest aktywne
+  bool is_active = 8;
+  // Role użytkownika
+  repeated string roles = 9;
+}
+
+// Żądanie utworzenia użytkownika
+message CreateUserRequest {
+  // Metadane żądania
+  RequestMetadata metadata = 1;
+  // Nazwa użytkownika
+  string username = 2;
+  // Adres email
+  string email = 3;
+  // Imię
+  string first_name = 4;
+  // Nazwisko
+  string last_name = 5;
+  // Hasło (nie będzie przechowywane w tej formie)
+  string password = 6;
+}
+
+// Odpowiedź utworzenia użytkownika
+message CreateUserResponse {
+  // Metadane odpowiedzi
+  ResponseMetadata metadata = 1;
+  // Status odpowiedzi
+  ResponseStatus status = 2;
+  // Utworzony użytkownik
+  User user = 3;
+  // Ewentualny błąd
+  Error error = 4;
+}
+
+// Żądanie pobrania użytkownika
+message GetUserRequest {
+  // Metadane żądania
+  RequestMetadata metadata = 1;
+  // ID użytkownika do pobrania
+  string user_id = 2;
+}
+
+// Odpowiedź pobrania użytkownika
+message GetUserResponse {
+  // Metadane odpowiedzi
+  ResponseMetadata metadata = 1;
+  // Status odpowiedzi
+  ResponseStatus status = 2;
+  // Znaleziony użytkownik
+  User user = 3;
+  // Ewentualny błąd
+  Error error = 4;
+}
+
+// Żądanie aktualizacji użytkownika
+message UpdateUserRequest {
+  // Metadane żądania
+  RequestMetadata metadata = 1;
+  // ID użytkownika do zaktualizowania
+  string user_id = 2;
+  // Nowa nazwa użytkownika (opcjonalnie)
+  optional string username = 3;
+  // Nowy email (opcjonalnie)
+  optional string email = 4;
+  // Nowe imię (opcjonalnie)
+  optional string first_name = 5;
+  // Nowe nazwisko (opcjonalnie)
+  optional string last_name = 6;
+}
+
+// Odpowiedź aktualizacji użytkownika
+message UpdateUserResponse {
+  // Metadane odpowiedzi
+  ResponseMetadata metadata = 1;
+  // Status odpowiedzi
+  ResponseStatus status = 2;
+  // Zaktualizowany użytkownik
+  User user = 3;
+  // Ewentualny błąd
+  Error error = 4;
+}
+
+// Żądanie usunięcia użytkownika
+message DeleteUserRequest {
+  // Metadane żądania
+  RequestMetadata metadata = 1;
+  // ID użytkownika do usunięcia
+  string user_id = 2;
+}
+
+// Odpowiedź usunięcia użytkownika
+message DeleteUserResponse {
+  // Metadane odpowiedzi
+  ResponseMetadata metadata = 1;
+  // Status odpowiedzi
+  ResponseStatus status = 2;
+  // Czy operacja się powiodła
+  bool success = 3;
+  // Ewentualny błąd
+  Error error = 4;
+}
+
+// Żądanie listowania użytkowników
+message ListUsersRequest {
+  // Metadane żądania
+  RequestMetadata metadata = 1;
+  // Liczba użytkowników na stronę
+  int32 page_size = 2;
+  // Token strony (dla paginacji)
+  string page_token = 3;
+  // Filtr według ról
+  repeated string role_filter = 4;
+}
+
+// Odpowiedź listowania użytkowników
+message ListUsersResponse {
+  // Metadane odpowiedzi
+  ResponseMetadata metadata = 1;
+  // Status odpowiedzi
+  ResponseStatus status = 2;
+  // Lista użytkowników
+  repeated User users = 3;
+  // Token następnej strony
+  string next_page_token = 4;
+  // Całkowita liczba użytkowników
+  int32 total_count = 5;
+  // Ewentualny błąd
+  Error error = 6;
+}

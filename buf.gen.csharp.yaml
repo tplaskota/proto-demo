@@ -1,0 +1,10 @@
+version: v2
+managed:
+  enabled: true
+
+# C# - NIE UŻYWA BUF
+# Kompilacja przez dotnet build z Grpc.Tools
+# Zobacz: gen/csharp/ProtoDemo.csproj
+
+# Puste - C# używa Grpc.Tools zamiast buf
+plugins: []

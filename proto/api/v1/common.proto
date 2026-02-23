@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package api.v1;
+
+import "google/protobuf/timestamp.proto";
+
+// Metadane wspólne dla wszystkich zapytań
+message RequestMetadata {
+  // Unikalny identyfikator żądania
+  string request_id = 1;
+  // Znacznik czasu żądania
+  google.protobuf.Timestamp timestamp = 2;
+  // Identyfikator klienta
+  string client_id = 3;
+  // Wersja API klienta
+  string api_version = 4;
+}
+
+// Metadane wspólne dla wszystkich odpowiedzi
+message ResponseMetadata {
+  // Identyfikator żądania (korelacja)
+  string request_id = 1;
+  // Znacznik czasu odpowiedzi
+  google.protobuf.Timestamp timestamp = 2;
+  // Czas przetwarzania w milisekundach
+  int64 processing_time_ms = 3;
+}
+
+// Status odpowiedzi
+enum ResponseStatus {
+  // Nieznany status (wartość domyślna)
+  RESPONSE_STATUS_UNSPECIFIED = 0;
+  // Sukces
+  RESPONSE_STATUS_SUCCESS = 1;
+  // Błąd klienta
+  RESPONSE_STATUS_CLIENT_ERROR = 2;
+  // Błąd serwera
+  RESPONSE_STATUS_SERVER_ERROR = 3;
+}
+
+// Szczegóły błędu
+message Error {
+  // Kod błędu
+  string code = 1;
+  // Komunikat błędu
+  string message = 2;
+  // Dodatkowe szczegóły
+  map<string, string> details = 3;
+}

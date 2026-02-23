@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package api.v1;
+
+import "api/v1/user.proto";
+
+// Serwis zarządzania użytkownikami
+// Zapewnia operacje CRUD dla użytkowników
+service UserService {
+  // Tworzy nowego użytkownika
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
+
+  // Pobiera dane użytkownika po ID
+  rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
+
+  // Aktualizuje dane użytkownika
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {}
+
+  // Usuwa użytkownika
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}
+
+  // Pobiera listę użytkowników z paginacją
+  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {}
+}
