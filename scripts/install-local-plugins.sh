@@ -98,7 +98,7 @@ install_dotnet() {
 
 # Instalacja według systemu
 case "$OS" in
-    ubuntu|debian)
+    ubuntu|debian|pop)
         install_debian_ubuntu
         ;;
     fedora|rhel|centos)
@@ -123,9 +123,9 @@ case "$OS" in
 esac
 
 # Instalacja .NET SDK (opcjonalne, dla C#)
-install_dotnet
-        ;;
-esac
+install_dotnet() {
+    echo "sam se zainstaluj"
+}
 
 echo ""
 echo "✅ Instalacja zakończona!"
@@ -148,6 +148,25 @@ check_tool() {
 check_tool protoc
 check_tool grpc_cpp_plugin
 check_tool grpc_python_plugin
+
+# Tworzenie symlinków wymaganych przez buf (protoc_builtin: grpc-cpp/grpc-python)
+echo ""
+echo "🔗 Tworzenie symlinków dla buf (protoc-gen-grpc-*)..."
+mkdir -p ~/.local/bin
+if command -v grpc_cpp_plugin &> /dev/null; then
+    ln -sf "$(which grpc_cpp_plugin)" ~/.local/bin/protoc-gen-grpc-cpp
+    echo "✅ protoc-gen-grpc-cpp -> $(which grpc_cpp_plugin)"
+else
+    echo "❌ grpc_cpp_plugin nie znaleziony - pomiń symlink"
+fi
+if command -v grpc_python_plugin &> /dev/null; then
+    ln -sf "$(which grpc_python_plugin)" ~/.local/bin/protoc-gen-grpc-python
+    echo "✅ protoc-gen-grpc-python -> $(which grpc_python_plugin)"
+else
+    echo "❌ grpc_python_plugin nie znaleziony - pomiń symlink"
+fi
+echo "⚠️  Upewnij się, że ~/.local/bin jest na \$PATH:"
+echo "   export PATH=\"\$HOME/.local/bin:\$PATH\""
 
 # Sprawdź pluginy Python
 if python3 -c "import grpc_tools.protoc" 2>/dev/null; then

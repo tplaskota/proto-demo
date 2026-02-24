@@ -4,6 +4,11 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 CSHARP_DIR="$SCRIPT_DIR/../gen/csharp"
 
+# Scaffold projektu z szablonów (wzorzec jak CMakeLists.txt.template)
+echo "Scaffolding C# project from templates..."
+mkdir -p "$CSHARP_DIR"
+cp "$SCRIPT_DIR/csharp/ProtoDemo.csproj.template" "$CSHARP_DIR/ProtoDemo.csproj"
+
 cd "$CSHARP_DIR"
 
 echo "Building C# library..."

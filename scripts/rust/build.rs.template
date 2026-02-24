@@ -1,0 +1,14 @@
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    tonic_build::configure()
+        .build_server(true)
+        .build_client(true)
+        .compile(
+            &[
+                "../../proto/api/v1/common.proto",
+                "../../proto/api/v1/user.proto",
+                "../../proto/api/v1/user_service.proto",
+            ],
+            &["../../proto"],
+        )?;
+    Ok(())
+}

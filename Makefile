@@ -9,7 +9,7 @@ VERSION ?= 1.0.0
 all: lint generate docs
 
 .PHONY: all-libs
-all-libs: build-cpp-lib build-rust-lib build-python-lib build-csharp-lib
+all-libs: build-cpp-lib build-rust-lib build-csharp-lib
 
 # Instalacja buf (jeśli nie jest zainstalowany)
 .PHONY: install-buf
@@ -101,6 +101,7 @@ generate-csharp:
 # Generowanie dokumentacji
 .PHONY: docs
 docs: generate
+	@mkdir -p $(DOCS_DIR)
 	@echo "Dokumentacja wygenerowana w $(DOCS_DIR)/"
 	@ls -la $(DOCS_DIR)/
 
@@ -120,8 +121,9 @@ clean:
 .PHONY: clean-all
 clean-all: clean
 	@echo "Czyszczenie wszystkich wygenerowanych plików..."
-	@rm -rf $(GEN_DIR)/cpp/api $(GEN_DIR)/python/api $(GEN_DIR)/csharp/Api
-	@echo "Wyczyszczono wszystko (Rust build.rs files preserved)."
+	@rm -rf $(GEN_DIR)/cpp/api $(GEN_DIR)/python/api
+	@rm -rf $(GEN_DIR)/rust $(GEN_DIR)/csharp
+	@echo "Wyczyszczono wszystko (szablony projektów zachowane w scripts/)."
 
 # Pełna budowa (tylko protobuf)
 .PHONY: build

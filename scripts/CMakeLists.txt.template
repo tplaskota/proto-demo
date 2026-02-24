@@ -6,7 +6,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Znajdź wymagane pakiety
 find_package(Protobuf REQUIRED)
-find_package(gRPC CONFIG REQUIRED)
+
+# gRPC: próbuj CMake config (nowsze instalacje), fallback na pkg-config (Ubuntu apt)
+find_package(gRPC CONFIG QUIET)
+if(gRPC_FOUND)
+    message(STATUS "Found gRPC via CMake config")
+    set(GRPC_LIBRARIES gRPC::grpc++ gRPC::grpc++_reflection)
+    set(GRPC_INCLUDE_DIRS "")
+else()
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(GRPC REQUIRED grpc++)
+    message(STATUS "Found gRPC via pkg-config: ${GRPC_LIBRARIES}")
+endif()
 
 # Zbierz wszystkie wygenerowane pliki
 file(GLOB_RECURSE PROTO_SRCS "api/v1/*.pb.cc")
@@ -16,26 +27,26 @@ file(GLOB_RECURSE GRPC_HDRS "api/v1/*.grpc.pb.h")
 
 # Biblioteka shared
 add_library(proto_demo_cpp SHARED ${PROTO_SRCS} ${GRPC_SRCS})
-target_include_directories(proto_demo_cpp PUBLIC 
+target_include_directories(proto_demo_cpp PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include>
+    ${GRPC_INCLUDE_DIRS}
 )
 target_link_libraries(proto_demo_cpp PUBLIC
     protobuf::libprotobuf
-    gRPC::grpc++
-    gRPC::grpc++_reflection
+    ${GRPC_LIBRARIES}
 )
 
 # Biblioteka static
 add_library(proto_demo_cpp_static STATIC ${PROTO_SRCS} ${GRPC_SRCS})
-target_include_directories(proto_demo_cpp_static PUBLIC 
+target_include_directories(proto_demo_cpp_static PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
     $<INSTALL_INTERFACE:include>
+    ${GRPC_INCLUDE_DIRS}
 )
 target_link_libraries(proto_demo_cpp_static PUBLIC
     protobuf::libprotobuf
-    gRPC::grpc++
-    gRPC::grpc++_reflection
+    ${GRPC_LIBRARIES}
 )
 
 # Instalacja
