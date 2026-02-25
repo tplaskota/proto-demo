@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "proto-demo"
+version = "1.0.0"
+description = "Generated protobuf/gRPC library for proto-demo"
+license = "MIT"
+requires-python = ">=3.7"
+dependencies = [
+    "grpcio>=1.30",
+    "protobuf>=3.12",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["proto_demo*"]

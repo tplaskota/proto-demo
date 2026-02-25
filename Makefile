@@ -9,7 +9,7 @@ VERSION ?= 1.0.0
 all: lint generate docs
 
 .PHONY: all-libs
-all-libs: build-cpp-lib build-rust-lib build-csharp-lib
+all-libs: build-cpp-lib build-rust-lib build-python-lib build-csharp-lib
 
 # Instalacja buf (jeśli nie jest zainstalowany)
 .PHONY: install-buf
@@ -111,7 +111,7 @@ clean:
 	@echo "Czyszczenie wygenerowanych plików..."
 	@rm -rf $(GEN_DIR)/cpp/build $(GEN_DIR)/cpp/dist $(GEN_DIR)/cpp/CMakeLists.txt
 	@rm -rf $(GEN_DIR)/rust/target
-	@rm -rf $(GEN_DIR)/python/dist $(GEN_DIR)/python/build $(GEN_DIR)/python/*.egg-info $(GEN_DIR)/python/proto_demo
+	@rm -rf $(GEN_DIR)/python/dist $(GEN_DIR)/python/build $(GEN_DIR)/python/*.egg-info $(GEN_DIR)/python/proto_demo $(GEN_DIR)/python/pyproject.toml
 	@rm -rf $(GEN_DIR)/csharp/bin $(GEN_DIR)/csharp/obj $(GEN_DIR)/csharp/nupkg
 	@rm -rf $(GEN_DIR)/cpp/api $(GEN_DIR)/python/api $(GEN_DIR)/csharp/Api
 	@rm -rf $(DOCS_DIR)/*

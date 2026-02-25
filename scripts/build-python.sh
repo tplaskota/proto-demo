@@ -8,6 +8,9 @@ cd "$PYTHON_DIR"
 
 echo "Building Python wheel..."
 
+# Scaffold pyproject.toml z szablonu (wzorzec jak CMakeLists.txt.template)
+cp "$SCRIPT_DIR/python/pyproject.toml.template" pyproject.toml
+
 # Sprawdź czy pliki są wygenerowane
 if [ ! -f "api/v1/common_pb2.py" ]; then
     echo "❌ Error: Proto files not generated. Run 'make generate-python' first."

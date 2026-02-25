@@ -15,7 +15,7 @@ if [ ! -f "api/v1/common.pb.h" ]; then
 fi
 
 # Kopiuj CMakeLists.txt
-cp "$SCRIPT_DIR/CMakeLists.txt.template" CMakeLists.txt
+cp "$SCRIPT_DIR/cpp/CMakeLists.txt.template" CMakeLists.txt
 
 # Utwórz katalog build
 mkdir -p build
